@@ -1,9 +1,10 @@
 module DreamCheeky
   class BigRedButton
-
-    CLOSED    = 0x15
-    OPEN      = 0x17
-    DEPRESSED = 0x16
+    CLOSED        = 0x15
+    OPEN          = 0x17
+    OPEN_IM       = 0x1D
+    DEPRESSED     = 0x16
+    DEPRESSED_IM  = 0x1C
 
     def self.run(&block)
       brb = new
@@ -36,9 +37,9 @@ module DreamCheeky
       init_loop
       begin
         case check_button
-        when OPEN
+        when OPEN, OPEN_IM
           open! unless already_open?
-        when DEPRESSED
+        when DEPRESSED, DEPRESSED_IM
           push! unless already_pushed?
         when CLOSED
           close! unless already_closed?
@@ -48,7 +49,7 @@ module DreamCheeky
 
     def init_loop
       self.prior_state = self.current_state = get_current_state
-      self.open_or_closed = DEPRESSED == prior_state ? OPEN : prior_state
+      self.open_or_closed = [DEPRESSED, DEPRESSED_IM].include? prior_state ? OPEN : prior_state
     end
 
     def check_button
@@ -62,7 +63,7 @@ module DreamCheeky
     end
     
     def already_open?
-      OPEN == open_or_closed
+      OPEN == open_or_closed || OPEN_IM == open_or_closed
     end
 
     def push!
@@ -70,7 +71,7 @@ module DreamCheeky
     end
 
     def already_pushed?
-      DEPRESSED == prior_state
+      DEPRESSED == prior_state || DEPRESSED_IM == prior_state
     end
 
     def close!

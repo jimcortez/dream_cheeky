@@ -9,11 +9,14 @@ static void deallocate(void * handle)
 static VALUE allocate(VALUE klass)
 {
   hid_device * handle;
-
   handle = hid_open(0x1d34, 0x000d, NULL);
   /*handle = hid_open(0x1e54, 0x2030, NULL); // TypeMatrix*/
   if(!handle) {
-    rb_exc_raise(rb_exc_new2(rb_eRuntimeError, "No Big Red Button Detected"));
+    // Try other button
+    handle = hid_open(0x1d34, 0x0008, NULL);
+    if(!handle) {
+      rb_exc_raise(rb_exc_new2(rb_eRuntimeError, "No Big Red Button Detected"));
+    }
   }
 
   hid_set_nonblocking(handle, 1);

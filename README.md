@@ -7,7 +7,8 @@ World, the time has come to PUSH THE BUTTON!
 ## Support
 The following Dream Cheeky USB Devices are supported `(vendor_id:product_id)`
 
-Big Red Button ``(1d34:000d)``  
+Big Red Button ``(1d34:000d)``
+Big Red Button (Iron Man Edition) ``(1d34:0008)``
 USB Fidget ``(1d34:0001)``  
 
 Please get in touch if you have an unsupported Dream Cheeky device.
